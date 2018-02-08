@@ -80,7 +80,7 @@ public final class SafeLogoutTask extends BukkitRunnable {
             String remaining = plugin.getSettings().formatDuration(remainingSeconds);
 
             if (!plugin.getSettings().getLogoutPendingMessage().isEmpty()) {
-                player.sendMessage(plugin.getSettings().getLogoutPendingMessage().replace("{remaining}", remaining));
+                player.sendActionBar(plugin.getSettings().getLogoutPendingMessage().replace("{remaining}", remaining));
             }
 
             this.remainingSeconds = remainingSeconds;
