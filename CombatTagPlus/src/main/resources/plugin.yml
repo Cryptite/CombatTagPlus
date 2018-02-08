@@ -16,7 +16,7 @@ commands:
     permission: ctplus.reload
     permission-message: '§cYou do not have permission to use that command.'
   ctpluslogout:
-    aliases: [ctlogout, ctlog, logout]
+    aliases: [ctlogout, ctlog, logout, log]
     description: Logs out the player without spawning an NPC or killing them
     permission: ctplus.logout
     permission-message: '§cYou do not have permission to use that command.'
