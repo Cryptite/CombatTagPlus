@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import net.minelink.ctplus.compat.api.NpcNameGeneratorFactory;
 import net.minelink.ctplus.compat.api.NpcPlayerHelper;
+import net.minelink.ctplus.event.LogoutEvent;
 import net.minelink.ctplus.hook.Hook;
 import net.minelink.ctplus.hook.HookManager;
 import net.minelink.ctplus.hook.TownyHook;
@@ -287,6 +288,12 @@ public final class CombatTagPlus extends JavaPlugin {
             if (SafeLogoutTask.hasTask(player)) return false;
 
             // Attempt to start a new logout task
+            LogoutEvent event = new LogoutEvent(player);
+            Bukkit.getPluginManager().callEvent(event);
+
+            // Do nothing if event was cancelled
+            if (event.isCancelled()) return false;
+
             SafeLogoutTask.run(this, player);
         } else if (cmd.getName().equals("ctplusuntag")) {
 
