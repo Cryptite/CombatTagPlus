@@ -1,4 +1,4 @@
-package net.minelink.ctplus.compat.v1_13_R1;
+package net.minelink.ctplus.compat.v1_13_R2;
 
 import net.minecraft.server.v1_13_R2.EntityPlayer;
 import net.minecraft.server.v1_13_R2.EnumItemSlot;
