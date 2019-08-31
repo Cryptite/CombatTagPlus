@@ -13,6 +13,7 @@ public final class NpcIdentity {
     public NpcIdentity(UUID id, String name) {
         this.id = id;
         this.name = name;
+
     }
 
     public NpcIdentity(Player player) {
