@@ -2,6 +2,13 @@
 
 *CombatTagPlus is the last plugin you'll ever need to stop those dirty combat loggers!*
 
+This fork is only intended for use with 1.13.2 Paper and has only minor changes from the original for.
+
+Only minor differences are below:
+* Use the Player Action Bar for logout countdowns, rather than text (less chat spam)
+* Added a LogoutEvent which is cancellable in case you want to cancel the NPC spawn via API
+* Added /log as a valid command alias for the original /logout
+
 ## Supports
 
 * CraftBukkit & Spigot 1.7.9
