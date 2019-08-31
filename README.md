@@ -2,7 +2,7 @@
 
 *CombatTagPlus is the last plugin you'll ever need to stop those dirty combat loggers!*
 
-This fork is only intended for use with 1.13.2 Paper and has only minor changes from the original for.
+This fork is only intended for use with 1.13.2 Paper and has only minor changes from the original fork.
 
 Only minor differences are below:
 * Use the Player Action Bar for logout countdowns, rather than text (less chat spam)
