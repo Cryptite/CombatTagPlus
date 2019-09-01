@@ -42,11 +42,13 @@ public final class NpcListener implements Listener {
     }
 
     @EventHandler
-    public void despawnNpc(PlayerJoinEvent event) {
-        // Attempt to despawn NPC
-        Npc npc = plugin.getNpcManager().getSpawnedNpc(event.getPlayer().getUniqueId());
-        if (npc != null) {
-            plugin.getNpcManager().despawn(npc);
+    public void despawnNpc(AsyncPlayerPreLoginEvent event) {
+        if (event.getLoginResult() == AsyncPlayerPreLoginEvent.Result.ALLOWED) {
+            // Attempt to despawn NPC
+            Npc npc = plugin.getNpcManager().getSpawnedNpc(event.getUniqueId());
+            if (npc != null) {
+                plugin.getNpcManager().despawn(npc);
+            }
         }
     }
 
