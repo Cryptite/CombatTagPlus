@@ -1,26 +1,18 @@
 package net.minelink.ctplus;
 
-import java.util.UUID;
-
 import net.minelink.ctplus.compat.api.NpcNameGeneratorFactory;
 import net.minelink.ctplus.compat.api.NpcPlayerHelper;
 import net.minelink.ctplus.event.LogoutEvent;
 import net.minelink.ctplus.hook.Hook;
 import net.minelink.ctplus.hook.HookManager;
 import net.minelink.ctplus.hook.TownyHook;
-import net.minelink.ctplus.listener.ForceFieldListener;
-import net.minelink.ctplus.listener.InstakillListener;
-import net.minelink.ctplus.listener.NpcListener;
-import net.minelink.ctplus.listener.PlayerHeadsListener;
-import net.minelink.ctplus.listener.PlayerListener;
-import net.minelink.ctplus.listener.TagListener;
+import net.minelink.ctplus.listener.*;
 import net.minelink.ctplus.task.ForceFieldTask;
 import net.minelink.ctplus.task.SafeLogoutTask;
 import net.minelink.ctplus.task.TagUpdateTask;
 import net.minelink.ctplus.util.BarUtils;
 import net.minelink.ctplus.util.ReflectionUtils;
 import net.minelink.ctplus.util.Version;
-
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -28,7 +20,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import static org.bukkit.ChatColor.*;
+import java.util.UUID;
+
+import static org.bukkit.ChatColor.GREEN;
+import static org.bukkit.ChatColor.RED;
 
 public final class CombatTagPlus extends JavaPlugin {
 
@@ -80,10 +75,10 @@ public final class CombatTagPlus extends JavaPlugin {
         }
 
         // Disable plugin if version compatibility check fails
-        if (!checkVersionCompatibility()) {
-            Bukkit.getPluginManager().disablePlugin(this);
-            return;
-        }
+//        if (!checkVersionCompatibility()) {
+//            Bukkit.getPluginManager().disablePlugin(this);
+//            return;
+//        }
 
         // Initialize plugin state
         hookManager = new HookManager(this);

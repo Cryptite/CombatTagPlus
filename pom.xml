@@ -18,7 +18,7 @@
 
     <modules>
         <module>CombatTagPlusCompat-API</module>
-        <module>CombatTagPlusCompat-v1_13_R2</module>
+        <module>CombatTagPlusCompat-v1_15_R1</module>
         <module>CombatTagPlusHook</module>
         <module>CombatTagPlusWG-v6</module>
         <module>CombatTagPlus</module>
