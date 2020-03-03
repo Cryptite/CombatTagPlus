@@ -9,14 +9,7 @@ import net.minelink.ctplus.task.SafeLogoutTask;
 import net.minelink.ctplus.task.TagUpdateTask;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
-import org.bukkit.entity.AnimalTamer;
-import org.bukkit.entity.Creature;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
-import org.bukkit.entity.Projectile;
-import org.bukkit.entity.Tameable;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -29,10 +22,10 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.projectiles.ProjectileSource;
 
+import javax.annotation.Nullable;
 import java.util.EnumSet;
 import java.util.Objects;
 import java.util.Set;
-import javax.annotation.Nullable;
 
 public final class TagListener implements Listener {
 
@@ -301,13 +294,4 @@ public final class TagListener implements Listener {
             event.setCancelled(true);
         }
     }
-
-    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-    public void disableInSafeRegion(PlayerCombatTagEvent event) {
-        // Don't tag if player is in a protected region
-        if (!plugin.getHookManager().isPvpEnabledAt(event.getPlayer().getLocation())) {
-            event.setCancelled(true);
-        }
-    }
-
 }

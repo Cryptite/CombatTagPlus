@@ -1,6 +1,6 @@
 package net.minelink.ctplus;
 
-import net.minelink.ctplus.compat.api.NpcPlayerHelper;
+import net.minelink.ctplus.api.NpcPlayerHelper;
 import org.bukkit.entity.Player;
 import org.bukkit.util.NumberConversions;
 

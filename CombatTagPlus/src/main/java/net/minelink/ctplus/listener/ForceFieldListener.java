@@ -14,12 +14,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.server.PluginDisableEvent;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -139,12 +134,6 @@ public final class ForceFieldListener implements Listener {
                 // Location corresponding to current loop
                 Location location = new Location(l.getWorld(), (double) x, l.getY(), (double) z);
 
-                // PvP is enabled here, no need to do anything else
-                if (plugin.getHookManager().isPvpEnabledAt(location)) continue;
-
-                // Check if PvP is enabled in a location surrounding this
-                if (!isPvpSurrounding(location)) continue;
-
                 for (int i = -r; i < r; i++) {
                     Location loc = new Location(location.getWorld(), location.getX(), location.getY(), location.getZ());
 
@@ -161,15 +150,4 @@ public final class ForceFieldListener implements Listener {
 
         return locations;
     }
-
-    private boolean isPvpSurrounding(Location loc) {
-        for (BlockFace direction : ALL_DIRECTIONS) {
-            if (plugin.getHookManager().isPvpEnabledAt(loc.getBlock().getRelative(direction).getLocation())) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
 }

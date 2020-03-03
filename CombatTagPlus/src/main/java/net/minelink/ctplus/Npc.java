@@ -1,7 +1,7 @@
 package net.minelink.ctplus;
 
-import net.minelink.ctplus.compat.api.NpcIdentity;
-import net.minelink.ctplus.compat.api.NpcPlayerHelper;
+import net.minelink.ctplus.api.NpcIdentity;
+import net.minelink.ctplus.api.NpcPlayerHelper;
 import org.bukkit.entity.Player;
 
 public final class Npc {

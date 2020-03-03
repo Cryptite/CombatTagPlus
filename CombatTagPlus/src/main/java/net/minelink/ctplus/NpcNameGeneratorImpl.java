@@ -1,6 +1,6 @@
 package net.minelink.ctplus;
 
-import net.minelink.ctplus.compat.api.NpcNameGenerator;
+import net.minelink.ctplus.api.NpcNameGenerator;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;

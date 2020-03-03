@@ -56,35 +56,17 @@
             <url>http://repo.byteflux.net/repository/maven-public/</url>
         </repository>
         <repository>
-            <id>spigot-repo</id>
-            <url>https://hub.spigotmc.org/nexus/content/groups/public/</url>
+            <id>sk89q-repo</id>
+            <url>http://maven.sk89q.com/repo/</url>
         </repository>
     </repositories>
 
     <dependencies>
         <dependency>
-            <groupId>net.minelink</groupId>
-            <artifactId>CombatTagPlusCompat-API</artifactId>
-            <version>1.3.2-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-<!--        <dependency>-->
-<!--            <groupId>net.minelink</groupId>-->
-<!--            <artifactId>CombatTagPlusCompat-v1_15_R1</artifactId>-->
-<!--            <version>1.3.2-SNAPSHOT</version>-->
-<!--            <scope>compile</scope>-->
-<!--        </dependency>-->
-        <dependency>
-            <groupId>net.minelink</groupId>
-            <artifactId>CombatTagPlusHook</artifactId>
-            <version>1.3.2-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>net.minelink</groupId>
-            <artifactId>CombatTagPlusWG-v6</artifactId>
-            <version>1.3.2-SNAPSHOT</version>
-            <scope>compile</scope>
+            <groupId>com.sk89q.worldguard</groupId>
+            <artifactId>worldguard-core</artifactId>
+            <version>7.0.1-SNAPSHOT</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>me.confuser</groupId>

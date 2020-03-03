@@ -1,7 +1,7 @@
 package net.minelink.ctplus.listener;
 
 import net.minelink.ctplus.CombatTagPlus;
-import net.minelink.ctplus.compat.api.NpcIdentity;
+import net.minelink.ctplus.api.NpcIdentity;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

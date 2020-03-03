@@ -1,16 +1,11 @@
 package net.minelink.ctplus;
 
-import net.minelink.ctplus.compat.api.NpcPlayerHelper;
+import net.minelink.ctplus.api.NpcPlayerHelper;
 import net.minelink.ctplus.event.PlayerCombatTagEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 public final class TagManager {
 

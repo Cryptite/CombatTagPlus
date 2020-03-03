@@ -1,23 +1,17 @@
 package net.minelink.ctplus;
 
-import net.minelink.ctplus.compat.api.NpcNameGeneratorFactory;
-import net.minelink.ctplus.compat.api.NpcPlayerHelper;
+import net.minelink.ctplus.api.NpcNameGeneratorFactory;
+import net.minelink.ctplus.api.NpcPlayerHelper;
+import net.minelink.ctplus.compat.NpcPlayerHelperImpl;
 import net.minelink.ctplus.event.LogoutEvent;
-import net.minelink.ctplus.hook.Hook;
-import net.minelink.ctplus.hook.HookManager;
-import net.minelink.ctplus.hook.TownyHook;
 import net.minelink.ctplus.listener.*;
-import net.minelink.ctplus.task.ForceFieldTask;
 import net.minelink.ctplus.task.SafeLogoutTask;
 import net.minelink.ctplus.task.TagUpdateTask;
 import net.minelink.ctplus.util.BarUtils;
-import net.minelink.ctplus.util.ReflectionUtils;
-import net.minelink.ctplus.util.Version;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.UUID;
@@ -31,8 +25,6 @@ public final class CombatTagPlus extends JavaPlugin {
 
     private Settings settings;
 
-    private HookManager hookManager;
-
     private TagManager tagManager;
 
     private NpcPlayerHelper npcPlayerHelper;
@@ -45,10 +37,6 @@ public final class CombatTagPlus extends JavaPlugin {
 
     public Settings getSettings() {
         return settings;
-    }
-
-    public HookManager getHookManager() {
-        return hookManager;
     }
 
     public TagManager getTagManager() {
@@ -74,24 +62,14 @@ public final class CombatTagPlus extends JavaPlugin {
             getLogger().info("Configuration file has been updated.");
         }
 
-        // Disable plugin if version compatibility check fails
-        if (!checkVersionCompatibility()) {
-            Bukkit.getPluginManager().disablePlugin(this);
-            return;
-        }
-
         // Initialize plugin state
-        hookManager = new HookManager(this);
+        npcPlayerHelper = new NpcPlayerHelperImpl();
         tagManager = new TagManager(this);
         if (npcPlayerHelper != null) {
             npcManager = new NpcManager(this);
         }
 
         NpcNameGeneratorFactory.setNameGenerator(new NpcNameGeneratorImpl(this));
-
-        integrateFactions();
-        integrateTowny();
-        integrateWorldGuard();
 
         BarUtils.init();
 
@@ -115,9 +93,6 @@ public final class CombatTagPlus extends JavaPlugin {
             Bukkit.getPluginManager().registerEvents(new PlayerHeadsListener(this), this);
         }
 
-        // Anti-SafeZone task
-        ForceFieldTask.run(this);
-
         // Periodic task for purging unused data
         Bukkit.getScheduler().runTaskTimer(this, new Runnable() {
             @Override
@@ -132,125 +107,6 @@ public final class CombatTagPlus extends JavaPlugin {
     @Override
     public void onDisable() {
         TagUpdateTask.cancelTasks(this);
-    }
-
-    private boolean checkVersionCompatibility() {
-        // Load NMS compatibility helper class
-        Class<?> helperClass = ReflectionUtils.getCompatClass("NpcPlayerHelperImpl");
-
-//        // Warn about incompatibility and return false indicating failure
-//        if (helperClass == null) {
-//            // Always compatible if NPCs aren't being used
-//            if (settings.instantlyKill() && !settings.alwaysSpawn()) {
-//                return true;
-//            }
-//            getLogger().severe("**VERSION ERROR**");
-//            getLogger().severe("Server API version detected: " + ReflectionUtils.API_VERSION);
-//            getLogger().severe("This version of CombatTagPlus is not compatible with your CraftBukkit.");
-//            return false;
-//        }
-
-        // Helper class was found
-        try {
-            // Attempt to create a new helper
-            npcPlayerHelper = (NpcPlayerHelper) helperClass.newInstance();
-        } catch (InstantiationException | IllegalAccessException e) {
-            // Fail miserably
-            throw new RuntimeException(e);
-        }
-
-        // Yay, we're compatible! (hopefully)
-        return true;
-    }
-
-    private void integrateFactions() {
-        if (!getSettings().useFactions()) {
-            return;
-        }
-
-        // Determine if Factions is loaded
-        Plugin plugin = Bukkit.getPluginManager().getPlugin("Factions");
-        if (plugin == null) {
-            return;
-        }
-
-        Version v;
-
-        try {
-            v = new Version(plugin.getDescription().getVersion());
-        } catch (IllegalArgumentException e) {
-            v = new Version("0.0");
-        }
-
-        String version = null;
-
-        if (v.compareTo(new Version("1.6")) < 0) {
-            version = "1_6";
-        } else if (v.compareTo(new Version("2.7")) > 0) {
-            version = "2_7";
-        }
-
-        if (version == null) {
-            String[] parts = v.toString().split("\\.");
-            version = parts[0] + "_" + parts[1];
-        }
-
-        // Determine which hook implementation to use
-        String className = "net.minelink.ctplus.factions.v" + version + ".FactionsHook";
-
-        try {
-            // Create and add FactionsHook
-            getHookManager().addHook((Hook) Class.forName(className).newInstance());
-        } catch (Exception e) {
-            // Something went wrong, chances are it's a newer, incompatible Factions
-            getLogger().warning("**WARNING**");
-            getLogger().warning("Failed to enable Factions integration due to errors.");
-            getLogger().warning("This is most likely due to a newer Factions.");
-
-            // Let's leave a stack trace in console for reporting
-            e.printStackTrace();
-        }
-    }
-
-    private void integrateTowny() {
-        if (!getSettings().useTowny()) {
-            return;
-        }
-
-        // Determine if Towny is loaded
-        if (Bukkit.getPluginManager().isPluginEnabled("Towny")) {
-            getHookManager().addHook(new TownyHook());
-        }
-    }
-
-    private void integrateWorldGuard() {
-        if (!getSettings().useWorldGuard()) {
-            return;
-        }
-
-        // Determine if WorldGuard is loaded
-        Plugin plugin = Bukkit.getPluginManager().getPlugin("WorldGuard");
-        if (plugin == null) {
-            return;
-        }
-
-        String v = plugin.getDescription().getVersion();
-
-        // Determine which hook implementation to use
-        String className = "net.minelink.ctplus.worldguard.v" + (v.startsWith("5") ? 5 : 6) + ".WorldGuardHook";
-
-        try {
-            // Create and add WorldGuardHook
-            getHookManager().addHook((Hook) Class.forName(className).newInstance());
-        } catch (Exception e) {
-            // Something went wrong, chances are it's a newer, incompatible WorldGuard
-            getLogger().warning("**WARNING**");
-            getLogger().warning("Failed to enable WorldGuard integration due to errors.");
-            getLogger().warning("This is most likely due to a newer WorldGuard.");
-
-            // Let's leave a stack trace in console for reporting
-            e.printStackTrace();
-        }
     }
 
     @Override
