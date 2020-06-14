@@ -38,7 +38,7 @@ public final class NpcPlayerHelperImpl implements NpcPlayerHelper {
             ((EntityPlayer) o).playerConnection.sendPacket(packet);
         }
 
-        worldServer.addEntity(npcPlayer);
+//        worldServer.addEntity(npcPlayer);
         worldServer.addPlayerJoin(npcPlayer);
 //        worldServer.getPlayerChunkMap().addPlayer(npcPlayer);
 
