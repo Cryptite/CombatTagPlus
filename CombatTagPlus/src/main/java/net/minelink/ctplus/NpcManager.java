@@ -14,7 +14,6 @@ import org.bukkit.metadata.FixedMetadataValue;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 
 public final class NpcManager {
 
@@ -45,7 +44,7 @@ public final class NpcManager {
         // Copy player data to fake player
         entity.setHealthScale(player.getHealthScale());
         entity.setMaxHealth(player.getMaxHealth());
-        entity.setHealth(player.getHealth());
+        entity.setHealth(Math.min(player.getHealth(), entity.getMaxHealth()));
         entity.setTotalExperience(player.getTotalExperience());
         entity.setFoodLevel(player.getFoodLevel());
         entity.setExhaustion(player.getExhaustion());
@@ -125,6 +124,7 @@ public final class NpcManager {
 
     // Use reflection
     private static final Sound EXPLODE_SOUND;
+
     static {
         Sound sound;
         try {
