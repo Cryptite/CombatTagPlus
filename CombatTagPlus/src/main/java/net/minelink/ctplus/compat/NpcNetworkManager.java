@@ -3,7 +3,7 @@ package net.minelink.ctplus.compat;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
-import net.minecraft.server.v1_15_R1.*;
+import net.minecraft.server.v1_16_R2.*;
 
 import javax.annotation.Nullable;
 import javax.crypto.SecretKey;

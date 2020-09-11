@@ -3,7 +3,7 @@ description: Tag players in combat
 version: ${version}
 authors: [Byteflux, Sudzzy]
 main: net.minelink.ctplus.CombatTagPlus
-api-version: 1.15
+api-version: 1.16
 softdepend: [BarAPI, PlayerHeads, WorldGuard, BossBarAPI, ActionBarAPI, mcMMO]
 commands:
   combattagplus:

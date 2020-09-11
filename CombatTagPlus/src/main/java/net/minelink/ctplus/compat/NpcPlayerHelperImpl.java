@@ -1,19 +1,21 @@
 package net.minelink.ctplus.compat;
 
-import net.minecraft.server.v1_15_R1.*;
-import net.minecraft.server.v1_15_R1.PacketPlayOutPlayerInfo.EnumPlayerInfoAction;
+import com.mojang.datafixers.util.Pair;
+import net.minecraft.server.v1_16_R2.*;
+import net.minecraft.server.v1_16_R2.PacketPlayOutPlayerInfo.EnumPlayerInfoAction;
 import net.minelink.ctplus.api.NpcIdentity;
 import net.minelink.ctplus.api.NpcPlayerHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_15_R1.CraftWorld;
-import org.bukkit.craftbukkit.v1_15_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_16_R2.CraftWorld;
+import org.bukkit.craftbukkit.v1_16_R2.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.util.Collections;
 
 public final class NpcPlayerHelperImpl implements NpcPlayerHelper {
 
@@ -60,7 +62,7 @@ public final class NpcPlayerHelperImpl implements NpcPlayerHelper {
             ((EntityPlayer) o).playerConnection.sendPacket(packet);
         }
 
-        WorldServer worldServer = MinecraftServer.getServer().getWorldServer(entity.dimension);
+        WorldServer worldServer = entity.getWorldServer();
         worldServer.removeEntity(entity);
         worldServer.removePlayer(entity);
     }
@@ -94,7 +96,7 @@ public final class NpcPlayerHelperImpl implements NpcPlayerHelper {
             ItemStack item = entity.getEquipment(slot);
             if (item == null) continue;
 
-            Packet packet = new PacketPlayOutEntityEquipment(entity.getId(), slot, item);
+            Packet packet = new PacketPlayOutEntityEquipment(entity.getId(), Collections.singletonList(new Pair<>(slot, item)));
 
             for (Object o : entity.world.getPlayers()) {
                 if (!(o instanceof EntityPlayer)) continue;
@@ -121,7 +123,7 @@ public final class NpcPlayerHelperImpl implements NpcPlayerHelper {
         Player p = Bukkit.getPlayer(identity.getId());
         if (p != null && p.isOnline()) return;
 
-        WorldNBTStorage worldStorage = (WorldNBTStorage) ((CraftWorld) Bukkit.getWorlds().get(0)).getHandle().getDataManager();
+        WorldNBTStorage worldStorage = entity.getMinecraftServer().worldNBTStorage;
         NBTTagCompound playerNbt = worldStorage.getPlayerData(identity.getId().toString());
         if (playerNbt == null) return;
 
