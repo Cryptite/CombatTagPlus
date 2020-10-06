@@ -15,7 +15,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Field;
-import java.util.Collections;
+import java.util.ArrayList;
+import java.util.List;
 
 public final class NpcPlayerHelperImpl implements NpcPlayerHelper {
 
@@ -92,20 +93,24 @@ public final class NpcPlayerHelperImpl implements NpcPlayerHelper {
         Location l = player.getLocation();
         int rangeSquared = 512 * 512;
 
+        List<Pair<EnumItemSlot, ItemStack>> pairs = new ArrayList<>();
+
         for (EnumItemSlot slot : EnumItemSlot.values()) {
             ItemStack item = entity.getEquipment(slot);
             if (item == null) continue;
 
-            Packet packet = new PacketPlayOutEntityEquipment(entity.getId(), Collections.singletonList(new Pair<>(slot, item)));
+            pairs.add(new Pair<>(slot, item));
+        }
 
-            for (Object o : entity.world.getPlayers()) {
-                if (!(o instanceof EntityPlayer)) continue;
+        Packet packet = new PacketPlayOutEntityEquipment(entity.getId(), pairs);
 
-                EntityPlayer p = (EntityPlayer) o;
-                Location loc = p.getBukkitEntity().getLocation();
-                if (l.getWorld().equals(loc.getWorld()) && l.distanceSquared(loc) <= rangeSquared) {
-                    p.playerConnection.sendPacket(packet);
-                }
+        for (Object o : entity.world.getPlayers()) {
+            if (!(o instanceof EntityPlayer)) continue;
+
+            EntityPlayer p = (EntityPlayer) o;
+            Location loc = p.getBukkitEntity().getLocation();
+            if (l.getWorld().equals(loc.getWorld()) && l.distanceSquared(loc) <= rangeSquared) {
+                p.playerConnection.sendPacket(packet);
             }
         }
     }
