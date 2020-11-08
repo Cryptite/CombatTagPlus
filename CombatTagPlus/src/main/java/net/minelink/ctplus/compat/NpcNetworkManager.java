@@ -3,10 +3,9 @@ package net.minelink.ctplus.compat;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
-import net.minecraft.server.v1_16_R2.*;
+import net.minecraft.server.v1_16_R3.*;
 
 import javax.annotation.Nullable;
-import javax.crypto.SecretKey;
 import java.net.SocketAddress;
 
 public final class NpcNetworkManager extends NetworkManager {
@@ -63,11 +62,6 @@ public final class NpcNetworkManager extends NetworkManager {
     @Override
     public boolean isLocal() {
         return false;
-    }
-
-    @Override
-    public void a(SecretKey secretkey) {
-
     }
 
     @Override

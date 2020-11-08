@@ -1,6 +1,6 @@
 package net.minelink.ctplus.compat;
 
-import net.minecraft.server.v1_16_R2.*;
+import net.minecraft.server.v1_16_R3.*;
 
 public final class NpcPlayerConnection extends PlayerConnection {
 
