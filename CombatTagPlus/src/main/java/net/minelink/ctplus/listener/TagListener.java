@@ -13,10 +13,7 @@ import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.event.entity.PotionSplashEvent;
-import org.bukkit.event.entity.ProjectileLaunchEvent;
+import org.bukkit.event.entity.*;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -68,6 +65,10 @@ public final class TagListener implements Listener {
 
         // Do not tag the attacker if they are in creative mode
         if (attackingPlayer != null && attackingPlayer.getGameMode() == GameMode.CREATIVE && plugin.getSettings().disableCreativeTags()) {
+            return;
+        }
+
+        if (event.getCause() == EntityDamageEvent.DamageCause.THORNS) {
             return;
         }
 

@@ -22,15 +22,9 @@ public final class TagManager {
     }
 
     void purgeExpired() {
-        Iterator<Tag> iterator = tags.values().iterator();
-
         // Loop tags
-        while (iterator.hasNext()) {
-            Tag tag = iterator.next();
-
-            // Remove expired tag
-            if (tag.isExpired()) iterator.remove();
-        }
+        // Remove expired tag
+        tags.values().removeIf(Tag::isExpired);
     }
 
     public void tag(Player victim, Player attacker) {

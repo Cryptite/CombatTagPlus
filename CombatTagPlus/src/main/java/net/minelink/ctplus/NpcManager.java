@@ -20,6 +20,7 @@ public final class NpcManager {
     private final CombatTagPlus plugin;
 
     private final Map<UUID, Npc> spawnedNpcs = new HashMap<>();
+    private final Map<UUID, Npc> npcMap = new HashMap<>();
 
     private final Map<Npc, NpcDespawnTask> despawnTasks = new HashMap<>();
 
@@ -37,6 +38,7 @@ public final class NpcManager {
         spawnedNpcs.put(player.getUniqueId(), npc);
 
         Player entity = npc.getEntity();
+        npcMap.put(entity.getUniqueId(), npc);
 
         entity.setCanPickupItems(false);
         entity.setNoDamageTicks(0);
@@ -101,17 +103,27 @@ public final class NpcManager {
         }
 
         // Remove the NPC entity from the world
-        plugin.getNpcPlayerHelper().despawn(npc.getEntity());
+        Player entity = npc.getEntity();
+        plugin.getNpcPlayerHelper().despawn(entity);
         spawnedNpcs.remove(npc.getIdentity().getId());
-        npc.getEntity().removeMetadata("NPC", plugin);
+        npcMap.remove(entity.getUniqueId());
+        entity.removeMetadata("NPC", plugin);
     }
 
     public Npc getSpawnedNpc(UUID playerId) {
         return spawnedNpcs.get(playerId);
     }
 
+    public Npc getSpawnedNpcEntity(UUID npcId) {
+        return npcMap.get(npcId);
+    }
+
     public boolean npcExists(UUID playerId) {
         return spawnedNpcs.containsKey(playerId);
+    }
+
+    public boolean npcEntityExists(UUID npcId) {
+        return npcMap.containsKey(npcId);
     }
 
     public NpcDespawnTask getDespawnTask(Npc npc) {

@@ -2,8 +2,8 @@ package net.minelink.ctplus.task;
 
 import net.minelink.ctplus.CombatTagPlus;
 import net.minelink.ctplus.Tag;
+import net.minelink.ctplus.event.PlayerCombatTagRemovedEvent;
 import net.minelink.ctplus.util.BarUtils;
-
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -51,6 +51,9 @@ public final class TagUpdateTask extends BukkitRunnable {
             if (!plugin.getSettings().getUntagMessage().isEmpty()) {
                 player.sendMessage(plugin.getSettings().getUntagMessage());
             }
+
+            Bukkit.getPluginManager().callEvent(new PlayerCombatTagRemovedEvent(player));
+
             cancel();
             return;
         }

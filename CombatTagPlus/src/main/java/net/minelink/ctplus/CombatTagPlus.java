@@ -93,6 +93,8 @@ public final class CombatTagPlus extends JavaPlugin {
             Bukkit.getPluginManager().registerEvents(new PlayerHeadsListener(this), this);
         }
 
+        Bukkit.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
+
         // Periodic task for purging unused data
         Bukkit.getScheduler().runTaskTimer(this, new Runnable() {
             @Override

@@ -1,7 +1,8 @@
 package net.minelink.ctplus.task;
 
+import com.google.common.io.ByteArrayDataOutput;
+import com.google.common.io.ByteStreams;
 import net.minelink.ctplus.CombatTagPlus;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -68,7 +69,11 @@ public final class SafeLogoutTask extends BukkitRunnable {
             plugin.getTagManager().untag(playerId);
 
             if (!plugin.getSettings().getLogoutSuccessMessage().isEmpty()) {
-                player.kickPlayer(plugin.getSettings().getLogoutSuccessMessage());
+                ByteArrayDataOutput out = ByteStreams.newDataOutput();
+                out.writeUTF("KickPlayer");
+                out.writeUTF(player.getName());
+                out.writeUTF(plugin.getSettings().getLogoutSuccessMessage());
+                player.sendPluginMessage(plugin, "BungeeCord", out.toByteArray());
             }
 
             cancel();
