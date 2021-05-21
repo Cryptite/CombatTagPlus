@@ -4,6 +4,7 @@ import net.minelink.ctplus.api.NpcPlayerHelper;
 import net.minelink.ctplus.event.PlayerCombatTagEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
 
 import java.util.*;
 
@@ -27,11 +28,11 @@ public final class TagManager {
         tags.values().removeIf(Tag::isExpired);
     }
 
-    public void tag(Player victim, Player attacker) {
-        tag(victim, attacker, EnumSet.of(Flag.TAG_VICTIM, Flag.TAG_ATTACKER));
+    public void tag(Player victim, Player attacker, Event e) {
+        tag(victim, attacker, EnumSet.of(Flag.TAG_VICTIM, Flag.TAG_ATTACKER), e);
     }
 
-    public void tag(Player victim, Player attacker, Set<Flag> flags) {
+    public void tag(Player victim, Player attacker, Set<Flag> flags, Event e) {
         NpcPlayerHelper helper = plugin.getNpcPlayerHelper();
 
         // Determine victim identity
@@ -67,7 +68,7 @@ public final class TagManager {
 
         // Call tag event
         int tagDuration = plugin.getSettings().getTagDuration();
-        PlayerCombatTagEvent event = new PlayerCombatTagEvent(victim, attacker, tagDuration);
+        PlayerCombatTagEvent event = new PlayerCombatTagEvent(victim, attacker, tagDuration, e);
         Bukkit.getPluginManager().callEvent(event);
 
         // Do nothing if event was cancelled

@@ -13,7 +13,10 @@ import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.*;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.entity.PotionSplashEvent;
+import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -68,12 +71,8 @@ public final class TagListener implements Listener {
             return;
         }
 
-        if (event.getCause() == EntityDamageEvent.DamageCause.THORNS) {
-            return;
-        }
-
         // Combat tag victim and player
-        plugin.getTagManager().tag(victim, attackingPlayer);
+        plugin.getTagManager().tag(victim, attackingPlayer, event);
     }
 
     @Nullable
@@ -154,7 +153,7 @@ public final class TagListener implements Listener {
             if (victim == attacker) continue;
 
             if (!plugin.getNpcPlayerHelper().isNpc(victim)) {
-                plugin.getTagManager().tag(victim, attacker);
+                plugin.getTagManager().tag(victim, attacker, event);
             }
         }
     }
@@ -197,7 +196,7 @@ public final class TagListener implements Listener {
             attacker = Bukkit.getPlayer(tag.getAttackerId());
         }
 
-        plugin.getTagManager().tag(victim, attacker, EnumSet.of(flag));
+        plugin.getTagManager().tag(victim, attacker, EnumSet.of(flag), event);
     }
 
     @EventHandler(priority = EventPriority.MONITOR)

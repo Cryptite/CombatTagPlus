@@ -2,12 +2,14 @@ package net.minelink.ctplus.event;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
+import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.player.PlayerEvent;
 
 public final class PlayerCombatTagEvent extends PlayerEvent implements Cancellable {
 
     private static final HandlerList handlers = new HandlerList();
+    private final Event event;
 
     private boolean cancelled;
 
@@ -17,11 +19,12 @@ public final class PlayerCombatTagEvent extends PlayerEvent implements Cancellab
 
     private int tagDuration;
 
-    public PlayerCombatTagEvent(Player victim, Player attacker, int tagDuration) {
+    public PlayerCombatTagEvent(Player victim, Player attacker, int tagDuration, Event e) {
         super(victim != null ? victim : attacker);
         this.victim = victim;
         this.attacker = attacker;
         this.tagDuration = tagDuration;
+        this.event = e;
     }
 
     public static HandlerList getHandlerList() {
@@ -59,4 +62,7 @@ public final class PlayerCombatTagEvent extends PlayerEvent implements Cancellab
         this.tagDuration = tagDuration;
     }
 
+    public Event getEvent() {
+        return event;
+    }
 }

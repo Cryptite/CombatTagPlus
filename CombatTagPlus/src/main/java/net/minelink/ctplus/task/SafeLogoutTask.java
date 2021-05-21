@@ -117,8 +117,7 @@ public final class SafeLogoutTask extends BukkitRunnable {
         SafeLogoutTask task = tasks.get(player.getUniqueId());
         if (task == null) return false;
 
-        BukkitScheduler s = Bukkit.getScheduler();
-        if (s.isQueued(task.getTaskId()) || s.isCurrentlyRunning(task.getTaskId())) {
+        if (task.finished) {
             return true;
         }
 
