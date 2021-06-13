@@ -1,16 +1,9 @@
 package net.minelink.ctplus.listener;
 
-import java.util.UUID;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
-
 import net.minelink.ctplus.CombatTagPlus;
 import net.minelink.ctplus.Npc;
-import net.minelink.ctplus.event.CombatLogEvent;
 import net.minelink.ctplus.event.NpcDespawnEvent;
 import net.minelink.ctplus.event.NpcDespawnReason;
-
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -23,6 +16,11 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import java.util.UUID;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+
 public final class NpcListener implements Listener {
 
     private final CombatTagPlus plugin;
@@ -31,15 +29,16 @@ public final class NpcListener implements Listener {
         this.plugin = plugin;
     }
 
-    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onCombatLog(CombatLogEvent event) {
-        Player player = event.getPlayer();
-
-        if (plugin.getSettings().instantlyKill()) return; // Let instakill handle it
-
-        // Spawn a new NPC
-        plugin.getNpcManager().spawn(player);
-    }
+    //For us we never spawn it here, it's always manually spawned by main plugin
+//    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+//    public void onCombatLog(CombatLogEvent event) {
+//        Player player = event.getPlayer();
+//
+//        if (plugin.getSettings().instantlyKill()) return; // Let instakill handle it
+//
+//        // Spawn a new NPC
+//        plugin.getNpcManager().spawn(player);
+//    }
 
     @EventHandler
     public void despawnNpc(PlayerJoinEvent event) {
